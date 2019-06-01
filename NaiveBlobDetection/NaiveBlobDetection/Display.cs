@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace IslandAlgorithm
+namespace NaiveBlobDetection
 {
     public partial class Display : Form
     {

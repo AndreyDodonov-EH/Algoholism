@@ -1,4 +1,4 @@
-﻿namespace IslandAlgorithm
+﻿namespace NaiveBlobDetection
 {
     partial class Display
     {

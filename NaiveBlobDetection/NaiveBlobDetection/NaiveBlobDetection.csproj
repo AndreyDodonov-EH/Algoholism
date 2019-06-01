@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{ADFCA5EE-C102-439C-859A-D09FB5B5B29E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>IslandAlgorithm</RootNamespace>
-    <AssemblyName>IslandAlgorithm</AssemblyName>
+    <RootNamespace>NaiveBlobDetection</RootNamespace>
+    <AssemblyName>NaiveBlobDetection</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Blob.cs" />
+    <Compile Include="BlobDetector.cs" />
     <Compile Include="Display.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -67,6 +69,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
