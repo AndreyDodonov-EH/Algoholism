@@ -14,14 +14,22 @@ namespace IslandAlgorithm
             rand = new Random();
         }
 
-        public Matrix<int> GetRandomMatrix(int size, int min, int max)
+        /// <summary>
+        ///  [min, max)
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public Matrix<int> GetRandomMatrix(int width, int height, int min, int max)
         {
-            Matrix<int> matrix = new Matrix<int>(size);
+            Matrix<int> matrix = new Matrix<int>();
 
-            for (int i=0; i<size; i++)
+            for (int i=0; i< height; i++)
             {
                 List<int> row = new List<int>();
-                for (int j=0; j<size; j++)
+                for (int j=0; j< width; j++)
                 {
                     row.Add(rand.Next(min, max));
                 }
