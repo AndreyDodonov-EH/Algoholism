@@ -24,13 +24,14 @@ namespace NaiveBlobDetection
         {
             Bitmap randomBlackWhiteImage = new Bitmap(pictureBoxSource.Width, pictureBoxSource.Height);
             Graphics gfx = Graphics.FromImage(randomBlackWhiteImage);
-            Matrix<int> randomBlackWhiteMatrix = _matrixFactory.GetRandomMatrix(pictureBoxSource.Width, pictureBoxSource.Height, 0, 2); // [0, 2)
+            //Matrix<int> blackWhiteMatrix = _matrixFactory.GetRandomMatrix(pictureBoxSource.Width, pictureBoxSource.Height, 0, 2); // [0, 2)
+            Matrix<int> blackWhiteMatrix = _matrixFactory.GetMatrixFromImage(@"cartoon_0.jpg");
 
-            for (int y = 0; y < randomBlackWhiteMatrix.Height; y++)
+            for (int y = 0; y < blackWhiteMatrix.Height; y++)
             {
-                for (int x = 0; x < randomBlackWhiteMatrix.Width; x++)
+                for (int x = 0; x < blackWhiteMatrix.Width; x++)
                 {
-                    if (randomBlackWhiteMatrix[x,y] == 0)
+                    if (blackWhiteMatrix[x,y] == 0)
                         gfx.FillRectangle(Brushes.Black, new Rectangle(x, y, 1, 1));
                     else
                         gfx.FillRectangle(Brushes.White, new Rectangle(x, y,1, 1));
