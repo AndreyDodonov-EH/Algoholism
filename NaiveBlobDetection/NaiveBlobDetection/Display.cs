@@ -66,7 +66,8 @@ namespace NaiveBlobDetection
 
         private void _blobDetector_ElementCovered(object sender, ElementInspectedEventArgs e)
         {
-            _gfx.FillRectangle(Brushes.Yellow, e.X, e.Y, 1, 1);
+            Brush br = _elementToBrushMap[e.el_type];
+            _gfx.FillRectangle(br, e.X, e.Y, 1, 1);
             pictureBoxSource.Invalidate();
         }
 

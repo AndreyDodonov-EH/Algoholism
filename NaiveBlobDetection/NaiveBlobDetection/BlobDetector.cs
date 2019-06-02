@@ -11,6 +11,15 @@ namespace NaiveBlobDetection
     {
         public int X { get; set; }
         public int Y { get; set; }
+        public EN_EL el_type { get; set; }
+    }
+
+    internal enum EN_DIR
+    {
+        LEFT,
+        RIGHT,
+        UP,
+        DOWN
     }
 
     class BlobDetector
@@ -20,11 +29,52 @@ namespace NaiveBlobDetection
 
         public void Detect(Matrix<EN_EL> source)
         {
-            for (int y=0; y < source.Height; y++)
+            DetectOpenSpaces(source);           
+        }
+
+        private void DetectOpenSpaces(Matrix<EN_EL> source)
+        {
+            for(int x = 0; x < source.Width; x++) // upper border
             {
-                for (int x=0; x < source.Width; x++)
+                DetectOpenSpace(x, 0, source, EN_DIR.LEFT);
+            }
+            for (int y = 1; y < source.Height-1; y++) // right border
+            {
+                DetectOpenSpace(source.Width-1, y, source, EN_DIR.UP);
+            }
+            for (int x = source.Width-1; x >= 0; x--) // lower border
+            {
+                DetectOpenSpace(x, source.Height-1, source, EN_DIR.RIGHT);
+            }
+            for (int y = source.Height - 1; y > 0; y--) // left border
+            {
+                DetectOpenSpace(0, y, source, EN_DIR.DOWN);
+            }
+        }
+
+        private void DetectOpenSpace(int x, int y, Matrix<EN_EL> source, EN_DIR whereFrom)
+        {
+            while(y < source.Height && EN_EL.WHITE == source[x, y])
+            {
+                while (x < source.Width && EN_EL.WHITE == source[x, y])
                 {
-                    if (source[x,y] != EN_EL.WHITE)
+                    source[x, y] = EN_EL.OPEN_SPACE;
+                    x++;
+                    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE});
+                    //System.Threading.Thread.Sleep(5);
+                }
+                x = 0;
+                y++;
+            }
+        }
+
+        private void DetectBlobs(Matrix<EN_EL> source)
+        {
+            for (int y = 0; y < source.Height; y++)
+            {
+                for (int x = 0; x < source.Width; x++)
+                {
+                    if (EN_EL.WHITE != source[x, y])
                     {
                         continue;
                     }
