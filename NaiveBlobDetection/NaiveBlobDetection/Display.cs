@@ -20,7 +20,8 @@ namespace NaiveBlobDetection
             {
                 {EN_EL.BLACK, Brushes.Black},
                 {EN_EL.WHITE, Brushes.White},
-                {EN_EL.COVERED, Brushes.GreenYellow}
+                {EN_EL.OPEN_SPACE, Brushes.LightBlue},
+                {EN_EL.BLOB, Brushes.DarkBlue}
             };
 
         Graphics _gfx;

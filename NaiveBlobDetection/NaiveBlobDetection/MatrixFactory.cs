@@ -11,7 +11,8 @@ namespace NaiveBlobDetection
     {
         BLACK = 0,
         WHITE = 1,
-        COVERED = 2
+        OPEN_SPACE = 2,
+        BLOB = 3
     }
 
 
