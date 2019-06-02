@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NaiveBlobDetection
 {
-    internal class ElementCoveredEventArgs : EventArgs
+    internal class ElementInspectedEventArgs : EventArgs
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -15,7 +15,7 @@ namespace NaiveBlobDetection
 
     class BlobDetector
     {
-        public event EventHandler<ElementCoveredEventArgs> ElementCovered;
+        public event EventHandler<ElementInspectedEventArgs> ElementInspected;
         public event EventHandler AllBlobsDetected;
 
         public void Detect(Matrix<EN_EL> source)
@@ -30,7 +30,8 @@ namespace NaiveBlobDetection
                     }
                     else
                     {
-                        OnElementCovered(new ElementCoveredEventArgs { X = x, Y = y });
+
+                        OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y });
                         //System.Threading.Thread.Sleep(1);
                     }
                 }
@@ -38,9 +39,9 @@ namespace NaiveBlobDetection
             OnAllBlobsDetected(new EventArgs());
         }
 
-        protected virtual void OnElementCovered(ElementCoveredEventArgs e)
+        protected virtual void OnElementInspected(ElementInspectedEventArgs e)
         {
-            EventHandler<ElementCoveredEventArgs> handler = ElementCovered;
+            EventHandler<ElementInspectedEventArgs> handler = ElementInspected;
             handler?.Invoke(this, e);
         }
 

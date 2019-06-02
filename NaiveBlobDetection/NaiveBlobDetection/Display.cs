@@ -32,7 +32,7 @@ namespace NaiveBlobDetection
 
             _matrixFactory = new MatrixFactory();
             _blobDetector = new BlobDetector();
-            _blobDetector.ElementCovered += _blobDetector_ElementCovered;
+            _blobDetector.ElementInspected += _blobDetector_ElementCovered;
             _blobDetector.AllBlobsDetected += _blobDetector_AllBlobsDetected;
 
             _matrix = _matrixFactory.GetBWMatrixFromImage(@"cartoon_1.bmp");
@@ -64,7 +64,7 @@ namespace NaiveBlobDetection
             });
         }
 
-        private void _blobDetector_ElementCovered(object sender, ElementCoveredEventArgs e)
+        private void _blobDetector_ElementCovered(object sender, ElementInspectedEventArgs e)
         {
             _gfx.FillRectangle(Brushes.Yellow, e.X, e.Y, 1, 1);
             pictureBoxSource.Invalidate();
