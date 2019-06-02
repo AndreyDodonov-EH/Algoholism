@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace NaiveBlobDetection
 {
+    internal enum EN_EL : int
+    {
+        BLACK = 0,
+        WHITE = 1,
+        COVERED = 2
+    }
+
+
     class MatrixFactory
     {
         private Random rand;
@@ -40,23 +48,23 @@ namespace NaiveBlobDetection
             return matrix;
         }
 
-        public Matrix<int> GetMatrixFromImage(string filename)
+        public Matrix<EN_EL> GetBWMatrixFromImage(string filename)
         {
-            Matrix<int> matrix = new Matrix<int>();
+            Matrix<EN_EL> matrix = new Matrix<EN_EL>();
 
             Bitmap image = new Bitmap(filename);
 
             // Loop through the images pixels to reset color.
             for (int y = 0; y < image.Height; y++)
             {
-                List<int> matrixRow = new List<int>();
+                List<EN_EL> matrixRow = new List<EN_EL>();
                 for (int x = 0; x < image.Width; x++)
                 {
                     Color pixelColor = image.GetPixel(x, y);
-                    int matrixElement = 0;
+                    EN_EL matrixElement = EN_EL.BLACK;
                     if (IsColorConventionallyWhite(pixelColor))
                     {
-                        matrixElement = 1;
+                        matrixElement = EN_EL.WHITE;
                     }
                     matrixRow.Add(matrixElement);
                 }
