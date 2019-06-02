@@ -34,6 +34,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxResult)).BeginInit();
             this.panel1.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Display));
             this.SuspendLayout();
             // 
             // pictureBoxSource
@@ -68,11 +69,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
             this.Controls.Add(this.panel1);
+            this.ClientSize = new System.Drawing.Size(401, 411);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Display";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxResult)).EndInit();
             this.panel1.ResumeLayout(false);
+            this.Text = "Naive Blob Detection";
+            this.Shown += new System.EventHandler(this.Display_Shown_1);
             this.ResumeLayout(false);
 
         }
