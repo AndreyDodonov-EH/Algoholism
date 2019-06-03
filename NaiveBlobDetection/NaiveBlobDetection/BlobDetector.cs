@@ -14,58 +14,127 @@ namespace NaiveBlobDetection
         public EN_EL el_type { get; set; }
     }
 
-    internal enum EN_DIR
-    {
-        LEFT,
-        RIGHT,
-        UP,
-        DOWN
-    }
 
     class BlobDetector
     {
         public event EventHandler<ElementInspectedEventArgs> ElementInspected;
         public event EventHandler AllBlobsDetected;
 
-        public void Detect(Matrix<EN_EL> source)
+        private Matrix<EN_EL> _M;
+
+        public BlobDetector(Matrix<EN_EL> M)
         {
-            DetectOpenSpaces(source);           
+            _M = M;
         }
 
-        private void DetectOpenSpaces(Matrix<EN_EL> source)
+        public void Detect()
         {
-            for(int x = 0; x < source.Width; x++) // upper border
+            DetectOpenSpaces();           
+        }
+
+        private void DetectOpenSpaces()
+        {
+            for(int x = 0; x < _M.Width; x++) // upper border
             {
-                DetectOpenSpace(x, 0, source, EN_DIR.LEFT);
+                DetectOpenSpace(x, 0);
             }
-            for (int y = 1; y < source.Height-1; y++) // right border
+            for (int y = 1; y < _M.Height-1; y++) // right border
             {
-                DetectOpenSpace(source.Width-1, y, source, EN_DIR.UP);
+                DetectOpenSpace(_M.Width-1, y);
             }
-            for (int x = source.Width-1; x >= 0; x--) // lower border
+            for (int x = _M.Width-1; x >= 0; x--) // lower border
             {
-                DetectOpenSpace(x, source.Height-1, source, EN_DIR.RIGHT);
+                DetectOpenSpace(x, _M.Height-1);
             }
-            for (int y = source.Height - 1; y > 0; y--) // left border
+            for (int y = _M.Height - 1; y > 0; y--) // left border
             {
-                DetectOpenSpace(0, y, source, EN_DIR.DOWN);
+                DetectOpenSpace(0, y);
             }
         }
 
-        private void DetectOpenSpace(int x, int y, Matrix<EN_EL> source, EN_DIR whereFrom)
+        private void DetectOpenSpace(int x0, int y0)
         {
-            while(y < source.Height && EN_EL.WHITE == source[x, y])
+            //if (EN_EL.BLACK == _M[x0, y0])
+            //    return;
+
+            //System.Threading.Thread.Sleep(1);
+            int x = x0;
+            int y = y0;
+
+            if (EN_EL.WHITE == _M[x,y])
             {
-                while (x < source.Width && EN_EL.WHITE == source[x, y])
+                _M[x, y] = EN_EL.OPEN_SPACE;
+                OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+            }
+
+            //x = x0;
+            //for (y = y0 + 1; y < _M.Height && EN_EL.WHITE == _M[x, y]; y++)
+            //{
+            //    _M[x, y] = EN_EL.OPEN_SPACE;
+            //    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+            //    //DetectOpenSpace(x, y);
+            //}
+            //for (y = y0 - 1; y >= 0 && EN_EL.WHITE == _M[x, y]; y--)
+            //{
+            //    _M[x, y] = EN_EL.OPEN_SPACE;
+            //    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+            //    //DetectOpenSpace(x, y);
+            //}
+
+            for (y = y0 + 1, x=x0; y < _M.Height && EN_EL.WHITE == _M[x, y]; y++)
+            {
+                for (x = x0; x < _M.Width && EN_EL.WHITE == _M[x, y]; x++)
                 {
-                    source[x, y] = EN_EL.OPEN_SPACE;
-                    x++;
-                    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE});
-                    //System.Threading.Thread.Sleep(5);
+                    _M[x, y] = EN_EL.OPEN_SPACE;
+                    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+                    //DetectOpenSpace(x, y);
                 }
-                x = 0;
-                y++;
+                DetectOpenSpace(x, y);
+                for (x = x0 - 1; x >= 0 && EN_EL.WHITE == _M[x, y]; x--)
+                {
+                    _M[x, y] = EN_EL.OPEN_SPACE;
+                    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+                    //DetectOpenSpace(x, y);
+                }
+                DetectOpenSpace(x, y);
+                x = x0;
             }
+            DetectOpenSpace(x, y);
+            for (y = y0 - 1; y >= 0 && EN_EL.WHITE == _M[x, y]; y--)
+            {
+                for (x = x0; x < _M.Width && EN_EL.WHITE == _M[x, y]; x++)
+                {
+                    _M[x, y] = EN_EL.OPEN_SPACE;
+                    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+                    //DetectOpenSpace(x, y);
+                }
+                DetectOpenSpace(x, y);
+                for (x = x0; x >= 0 && EN_EL.WHITE == _M[x, y]; x--)
+                {
+                    _M[x, y] = EN_EL.OPEN_SPACE;
+                    OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+                    //DetectOpenSpace(x, y);
+                }
+                DetectOpenSpace(x, y);
+                x = x0;
+            }
+            DetectOpenSpace(x, y);
+
+            y = y0;
+            for (x = x0+1; x < _M.Width && EN_EL.WHITE == _M[x, y]; x++)
+            {
+                _M[x, y] = EN_EL.OPEN_SPACE;
+                OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+                //DetectOpenSpace(x, y);
+            }
+            DetectOpenSpace(x, y);
+            for (x = x0-1; x >= 0 && EN_EL.WHITE == _M[x, y]; x--)
+            {
+                _M[x, y] = EN_EL.OPEN_SPACE;
+                OnElementInspected(new ElementInspectedEventArgs { X = x, Y = y, el_type = EN_EL.OPEN_SPACE });
+                //DetectOpenSpace(x, y);
+            }
+            DetectOpenSpace(x, y);
         }
 
         private void DetectBlobs(Matrix<EN_EL> source)
